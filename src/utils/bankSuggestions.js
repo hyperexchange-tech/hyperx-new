@@ -15,7 +15,7 @@ const bankSuggestionMap = {
   "01": { banks: ["044", "058"], confidence: "low", names: ["Access Bank", "Guaranty Trust Bank"] },
   "02": { banks: ["033", "057","035"], confidence: "low", names: ["United Bank For Africa", "Zenith Bank","Wema Bank"] },
   "04": { banks: ["044", "070"], confidence: "low", names: ["Access Bank", "Fidelity Bank"] },
-  "06": { banks: ["044", "068"], confidence: "low", names: ["Access Bank", "Standard Chartered"] },
+  "06": { banks: ["044", "068","058"], confidence: "low", names: ["Access Bank", "Standard Chartered", "Guaranty Trust Bank"] },
   "08": { banks: ["058", "011"], confidence: "low", names: ["Guaranty Trust Bank", "First Bank"] },
   "10": { banks: ["033", "011", "214"], confidence: "low", names: ["United Bank For Africa", "First Bank", "FCMB"] },
   "20": { banks: ["011", "033"], confidence: "low", names: ["First Bank", "United Bank For Africa"] },
