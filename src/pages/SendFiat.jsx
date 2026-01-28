@@ -624,12 +624,17 @@ const SendFiat = () => {
                               onClick={() => handleSelectBankFromSuggestion(bank.code)}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
-                              className={`p-3 rounded-xl border transition-all text-left ${getConfidenceBg(bank.confidence)}`}
+                              className="p-3 rounded-xl border border-white/10 bg-white/[0.06] hover:bg-white/[0.08] transition-all"
                             >
-                              <p className="text-xs font-medium text-white mb-1 truncate">{bank.name}</p>
-                              <p className={`text-xs ${getConfidenceColor(bank.confidence)} capitalize`}>
-                                {bank.confidence} match
-                              </p>
+                              <img 
+                                src={getBankLogo(bank.code)} 
+                                alt={bank.name}
+                                className="h-8 w-8 rounded object-cover mx-auto mb-2"
+                                onError={(e) => {
+                                  e.target.style.display = 'none';
+                                }}
+                              />
+                              <p className="text-xs font-medium text-white text-center truncate">{bank.name}</p>
                             </motion.button>
                           ))}
                         </div>
