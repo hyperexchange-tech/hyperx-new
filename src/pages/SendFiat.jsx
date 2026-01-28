@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Building2, Users, User, Mail, CheckCircle2, Loader2, XCircle, Search, X, Lightbulb } from "lucide-react";
@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { useWallet } from "@/context/WalletContext";
 import { walletAPI } from "@/lib/api";
-import { suggestBanks, getConfidenceColor, getConfidenceBg } from "@/utils/bankSuggestions";
+import { suggestBanks, batchCheckBanks } from "@/utils/bankSuggestions";
 import bankIconsData from "@/data/bank-icons.json";
 
 const SendFiat = () => {
@@ -31,6 +31,7 @@ const SendFiat = () => {
   const [showBankModal, setShowBankModal] = useState(false);
   const [bankSearchQuery, setBankSearchQuery] = useState("");
   const [suggestedBanks, setSuggestedBanks] = useState([]);
+  const suggestTokenRef = useRef(0);
   const [banks, setBanks] = useState([]);
 
   // Convert bank icons data to the format needed
@@ -306,14 +307,37 @@ const SendFiat = () => {
     verifyAccount();
   }, [accountNumber, selectedBank]);
 
-  // New effect to handle bank suggestions
+  // New effect: show suggestions immediately, then verify in background
   useEffect(() => {
-    if (accountNumber.length === 10) {
-      const suggestions = suggestBanks(accountNumber);
-      setSuggestedBanks(suggestions);
-    } else {
+    if (accountNumber.length !== 10) {
+      // clear suggestions when not a full account number
       setSuggestedBanks([]);
+      return;
     }
+
+    const token = ++suggestTokenRef.current;
+    let mounted = true;
+
+    // Show initial suggestions immediately
+    const initialSuggestions = suggestBanks(accountNumber) || [];
+    if (mounted && suggestTokenRef.current === token) {
+      setSuggestedBanks(initialSuggestions);
+    }
+
+    // Then verify them in background
+    (async () => {
+      const bankCodes = initialSuggestions.map((b) => b.code);
+      const verified = await batchCheckBanks(accountNumber, bankCodes, walletAPI.resolvePayoutBank);
+
+      if (mounted && suggestTokenRef.current === token) {
+        // Update with verified banks or keep initial if any verified
+        setSuggestedBanks(verified.length > 0 ? verified : []);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
   }, [accountNumber]);
 
   const handleAmountChange = (e) => {

@@ -13,7 +13,7 @@ const bankSuggestionMap = {
 
   // Weak confidence: Traditional banks (fallback)
   "01": { banks: ["044", "058"], confidence: "low", names: ["Access Bank", "Guaranty Trust Bank"] },
-  "02": { banks: ["033", "057"], confidence: "low", names: ["United Bank For Africa", "Zenith Bank"] },
+  "02": { banks: ["033", "057","035"], confidence: "low", names: ["United Bank For Africa", "Zenith Bank","Wema Bank"] },
   "04": { banks: ["044", "070"], confidence: "low", names: ["Access Bank", "Fidelity Bank"] },
   "06": { banks: ["044", "068"], confidence: "low", names: ["Access Bank", "Standard Chartered"] },
   "08": { banks: ["058", "011"], confidence: "low", names: ["Guaranty Trust Bank", "First Bank"] },
@@ -110,4 +110,52 @@ export const getConfidenceBg = (confidence) => {
     default:
       return "bg-white/[0.06] border-white/10";
   }
+};
+
+/**
+ * Batch check banks in parallel for faster verification
+ * @param {string} accountNumber - 10-digit account number
+ * @param {Array} banks - Array of bank codes to check
+ * @param {Function} resolveFunc - walletAPI.resolvePayoutBank function
+ * @returns {Promise<Array>} Array of banks that returned valid accounts
+ */
+export const batchCheckBanks = async (accountNumber, banks, resolveFunc) => {
+  const BATCH_SIZE = 5; // Increased batch size for parallel checks
+  const accepted = [];
+
+  for (let i = 0; i < banks.length; i += BATCH_SIZE) {
+    const batch = banks.slice(i, i + BATCH_SIZE);
+    
+    // Check all banks in batch in parallel
+    const checks = await Promise.allSettled(
+      batch.map((code) => resolveFunc(accountNumber, code))
+    );
+
+    checks.forEach((res, idx) => {
+      if (res.status === "fulfilled") {
+        const data = res.value;
+        const accountName =
+          data?.accountName ||
+          data?.account_name ||
+          data?.name ||
+          data?.data?.accountName ||
+          data?.data?.account_name;
+
+        if (accountName) {
+          accepted.push({
+            code: batch[idx],
+            name: allBanksData[batch[idx]] || "Unknown Bank",
+            verified: true,
+          });
+        }
+      }
+    });
+
+    // If we found matches, return them immediately
+    if (accepted.length > 0) {
+      return accepted;
+    }
+  }
+
+  return accepted;
 };
