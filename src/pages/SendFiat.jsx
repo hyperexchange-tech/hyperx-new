@@ -9,6 +9,7 @@ import { useWallet } from "@/context/WalletContext";
 import { walletAPI } from "@/lib/api";
 import { suggestBanks, batchCheckBanks } from "@/utils/bankSuggestions";
 import bankIconsData from "@/data/bank-icons.json";
+import NumericKeyboard from "@/components/NumericKeyboard";
 
 const SendFiat = () => {
   const navigate = useNavigate();
@@ -33,6 +34,8 @@ const SendFiat = () => {
   const [suggestedBanks, setSuggestedBanks] = useState([]);
   const suggestTokenRef = useRef(0);
   const [banks, setBanks] = useState([]);
+  const [showAmountKeyboard, setShowAmountKeyboard] = useState(false);
+  const [showAccountKeyboard, setShowAccountKeyboard] = useState(false);
 
   // Convert bank icons data to the format needed
   useEffect(() => {
@@ -566,10 +569,12 @@ const SendFiat = () => {
                   <div className="text-center mb-4">
                     <input
                       type="text"
+                      onFocus={() => setShowAmountKeyboard(true)}
                       value={amount}
                       onChange={handleAmountChange}
                       placeholder="0.00"
                       className="w-full text-center text-4xl font-light bg-transparent border-none outline-none focus:ring-0 text-white placeholder:text-white/20"
+                      readOnly
                     />
                   </div>
 
@@ -616,11 +621,13 @@ const SendFiat = () => {
                 <h2 className="text-xs font-normal text-white/70">Recipient Details</h2>
                 <div className="space-y-3">
                   <input
+                    onFocus={() => setShowAccountKeyboard(true)}
                     value={accountNumber}
                     onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
                     placeholder="Account number"
                     maxLength={10}
                     className="w-full h-12 px-4 bg-white/[0.06] border border-white/10 rounded-2xl text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-white/20"
+                    readOnly
                   />
 
                   {/* Bank Suggestions */}
@@ -946,7 +953,27 @@ const SendFiat = () => {
 
       {/* Bank Selection Modal */}
       <AnimatePresence>
-        {showBankModal && (
+        {showAmountKeyboard && (
+          <NumericKeyboard
+            value={amount}
+            onChange={setAmount}
+            onClose={() => setShowAmountKeyboard(false)}
+            allowDecimal={true}
+            maxLength={10}
+          />
+        )}
+
+        {showAccountKeyboard && (
+          <NumericKeyboard
+            value={accountNumber}
+            onChange={setAccountNumber}
+            onClose={() => setShowAccountKeyboard(false)}
+            allowDecimal={false}
+            maxLength={10}
+          />
+        )}
+
+         {showBankModal && (
           <>
             {/* Backdrop */}
             <motion.div

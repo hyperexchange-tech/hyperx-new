@@ -7,6 +7,42 @@ const bankSuggestionMap = {
   "80": { banks: ["999992", "999991", "50515", "50211"], confidence: "high", names: ["OPay", "PalmPay", "Moniepoint", "Kuda Bank"] },
   "81": { banks: ["999992", "999991", "50515", "50211"], confidence: "high", names: ["OPay", "PalmPay", "Moniepoint", "Kuda Bank"] },
 
+  // Strong confidence: Account starts with 5 → Moniepoint
+  "50": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+  "51": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+  "52": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+  "53": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+  "54": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+  "55": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+  "56": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+  "57": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+  "58": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+  "59": { banks: ["50515", "999992", "999991", "050"], confidence: "high", names: ["Moniepoint MFB", "OPay", "PalmPay", "Ecobank Nigeria"] },
+
+  // Strong confidence: Account starts with 2 → United Bank For Africa
+  "20": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+  "21": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+  "22": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+  "23": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+  "24": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+  "25": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+  "26": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+  "27": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+  "28": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+  "29": { banks: ["033", "011", "214"], confidence: "high", names: ["United Bank For Africa", "First Bank", "FCMB"] },
+
+  // Medium confidence: Account starts with 3 → First Bank
+  "30": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+  "31": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+  "32": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+  "33": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+  "34": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+  "35": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+  "36": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+  "37": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+  "38": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+  "39": { banks: ["011", "033", "058"], confidence: "medium", names: ["First Bank of Nigeria", "United Bank For Africa", "Guaranty Trust Bank"] },
+
   // Medium confidence: Microfinance / Fintech
   "60": { banks: ["566", "51318", "565", "040"], confidence: "medium", names: ["VFD Microfinance", "FairMoney", "Carbon", "Access Bank"] },
   "61": { banks: ["566", "51318", "565"], confidence: "medium", names: ["VFD Microfinance", "FairMoney", "Carbon"] },
@@ -18,7 +54,6 @@ const bankSuggestionMap = {
   "06": { banks: ["044", "068","058"], confidence: "low", names: ["Access Bank", "Standard Chartered", "Guaranty Trust Bank"] },
   "08": { banks: ["058", "011"], confidence: "low", names: ["Guaranty Trust Bank", "First Bank"] },
   "10": { banks: ["033", "011", "214"], confidence: "low", names: ["United Bank For Africa", "First Bank", "FCMB"] },
-  "20": { banks: ["011", "033"], confidence: "low", names: ["First Bank", "United Bank For Africa"] },
   "30": { banks: ["033", "011"], confidence: "low", names: ["United Bank For Africa", "First Bank"] },
 };
 
